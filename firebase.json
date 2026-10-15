@@ -1,6 +1,7 @@
 {
   "hosting": {
-    "public": "public",
+    "site": "felipe-souza-rosa",
+    "public": "dist",
     "ignore": [
       "firebase.json",
       "**/.*",
