@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://felipe-souza-rosa.web.app/sitemap.xml
