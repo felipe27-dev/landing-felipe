@@ -1,0 +1,109 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #1E1B2E;
+  --color-panel: #2A2640;
+  --color-panel-2: #353052;
+  --color-paper: #F7F3E8;
+  --color-amber: #FFB627;
+  --color-mint: #7FDBCA;
+  --color-coral: #C8553D;
+  --color-sea: #2F6F9F;
+  --color-grass: #5FA35A;
+  --font-pixel: "Jersey 10", "Pixelify Sans", ui-monospace, monospace;
+  --font-sans: "Inter", system-ui, sans-serif;
+}
+
+html, body, #root { height: 100%; }
+body { margin: 0; background: var(--color-ink); color: var(--color-paper); font-family: var(--font-sans); }
+
+.pixel-border {
+  border: 3px solid var(--color-paper);
+  box-shadow: 0 0 0 3px var(--color-ink), 6px 6px 0 0 rgb(0 0 0 / 0.35);
+  border-radius: 6px;
+}
+
+:focus-visible { outline: 3px solid var(--color-mint); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+@keyframes pop { from { transform: scale(.96); opacity: 0 } to { transform: none; opacity: 1 } }
+
+/* Caixas no estilo dos RPGs portáteis: fundo claro, borda dupla arredondada. */
+.gb-box {
+  background: #F8F8F8;
+  color: #283038;
+  border: 4px solid #283038;
+  border-radius: 10px;
+  box-shadow: inset 0 0 0 3px #F8F8F8, inset 0 0 0 6px #6890C8, 0 6px 0 rgb(0 0 0 / 0.25);
+}
+.gb-box :focus-visible { outline: 3px solid #E04040; outline-offset: -2px; }
+
+@keyframes slide-sign { 0% { transform: translateY(-120%) } 12%, 85% { transform: none } 100% { transform: translateY(-120%) } }
+@keyframes toast { 0% { transform: translateY(-140%) } 10%, 88% { transform: none } 100% { transform: translateY(-140%) } }
+
+/* ---- Painéis no mesmo idioma visual das caixas do jogo (com tema claro/escuro) ---- */
+:root, .theme-light {
+  --gb-bg: #F8F8F4; --gb-fg: #283038; --gb-muted: #5A6676; --gb-line: #283038; --gb-accent: #6890C8;
+  --gb-card: #FFFFFF; --gb-card-shadow: #C9D4E3; --gb-hover: #EEF3FA; --gb-red: #E04040; --gb-blue: #3870D0; --gb-page: linear-gradient(180deg, #DCEBFA, #F4F1E6);
+}
+.theme-dark {
+  --gb-bg: #1E2433; --gb-fg: #EEF1F6; --gb-muted: #A3AEC2; --gb-line: #0B0E15; --gb-accent: #5B7FC0;
+  --gb-card: #2A3246; --gb-card-shadow: #0B0E15; --gb-hover: #333D55; --gb-red: #FF6464; --gb-blue: #8DB4FF; --gb-page: linear-gradient(180deg, #141A28, #1F1A2C);
+}
+.font-pixel { font-size-adjust: 0.56; }           /* tamanhos consistentes entre as opções de fonte */
+.gb-panel {
+  background: var(--gb-bg); color: var(--gb-fg);
+  border: 4px solid var(--gb-line); border-radius: 14px;
+  box-shadow: inset 0 0 0 4px var(--gb-bg), inset 0 0 0 8px var(--gb-accent), 0 10px 0 rgb(0 0 0 / 0.3);
+}
+.gb-card { background: var(--gb-card); color: var(--gb-fg); border: 3px solid var(--gb-line); border-radius: 10px; box-shadow: 0 4px 0 var(--gb-card-shadow); }
+.gb-card[data-pending] { border-style: dashed; box-shadow: none; opacity: .8; }
+.gb-muted { color: var(--gb-muted); }
+.gb-red { color: var(--gb-red); }
+.gb-blue { color: var(--gb-blue); }
+
+/* Emblema de tecnologia: placa pixelada com cantos "mordidos", sombra dura e ícone de cor por categoria */
+.gb-tag {
+  --tag: #6890C8;
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-pixel); font-size-adjust: 0.56; font-size: 1rem; line-height: 1;
+  padding: 5px 9px 4px 7px; color: var(--gb-fg); background: var(--gb-card);
+  border: 2px solid var(--gb-line);
+  clip-path: polygon(3px 0, calc(100% - 3px) 0, 100% 3px, 100% calc(100% - 3px), calc(100% - 3px) 100%, 3px 100%, 0 calc(100% - 3px), 0 3px);
+  box-shadow: inset 0 -3px 0 color-mix(in srgb, var(--tag) 35%, transparent);
+}
+.gb-tag::before { content: ''; width: 8px; height: 8px; background: var(--tag); box-shadow: 0 0 0 2px var(--gb-line); flex: none; }
+.gb-tag[data-cat="front"] { --tag: #3FA7F0; }
+.gb-tag[data-cat="back"] { --tag: #58C060; }
+.gb-tag[data-cat="data"] { --tag: #E8A33A; }
+.gb-tag[data-cat="ai"] { --tag: #B070E0; }
+.gb-tag[data-cat="infra"] { --tag: #E06060; }
+.gb-tag[data-cat="game"] { --tag: #F0D040; }
+button.gb-tag { cursor: pointer; }
+button.gb-tag:hover { background: var(--gb-hover); }
+button.gb-tag[aria-pressed="true"] { background: var(--tag); color: #101418; }
+
+/* Tecla de teclado em pixel (ajuda de controles) */
+.gb-key {
+  display: inline-grid; place-items: center; min-width: 30px; height: 30px; padding: 0 8px;
+  font-family: var(--font-pixel); font-size-adjust: 0.56; font-size: 1.05rem; color: var(--gb-fg);
+  background: var(--gb-card); border: 2px solid var(--gb-line); border-radius: 6px;
+  box-shadow: 0 4px 0 var(--gb-line), inset 0 -3px 0 var(--gb-card-shadow);
+  transform: translateY(-2px);
+}
+.gb-btn {
+  font-family: var(--font-pixel); font-size-adjust: 0.56; background: var(--gb-card); color: var(--gb-fg);
+  border: 3px solid var(--gb-line); border-radius: 8px; box-shadow: 0 3px 0 var(--gb-line); padding: 4px 14px;
+}
+.gb-btn:hover { background: var(--gb-hover); }
+.gb-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--gb-line); }
+.gb-btn-primary { background: var(--gb-red); color: #FFFFFF; }
+.gb-btn-primary:hover { filter: brightness(1.08); background: var(--gb-red); }
+.gb-scroll::-webkit-scrollbar { width: 10px; }
+.gb-scroll::-webkit-scrollbar-thumb { background: var(--gb-accent); border-radius: 8px; border: 2px solid var(--gb-bg); }
+
+@keyframes rise { from { opacity: 0; transform: translateY(14px) } to { opacity: 1; transform: none } }
+.reveal { animation: rise .45s ease-out both; }
